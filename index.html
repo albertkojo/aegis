@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="AEGIS Mastery">
+    <meta name="theme-color" content="#080c14">
+    <title>AEGIS - Neural Mastery & Reboot Protocol</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            950: '#080c14',
+                            900: '#0f172a',
+                            850: '#152035',
+                            800: '#1e293b'
+                        },
+                        cyan: {
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                        },
+                        indigo: {
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Inter Font & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Dynamic Inline Apple Touch Icon Container -->
+    <link id="apple-icon-link" rel="apple-touch-icon" href="">
+
+    <style>
+        :root {
+            --sat: env(safe-area-inset-top);
+            --sab: env(safe-area-inset-bottom);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+            background-color: #080c14;
+            color: #f8fafc;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            padding-top: var(--sat);
+            padding-bottom: calc(var(--sab) + 4.5rem);
+            touch-action: manipulation;
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-card-glow {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.12);
+        }
+
+        .neon-border-cyan {
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.25);
+            border: 1px solid rgba(34, 211, 238, 0.4);
+        }
+
+        .neon-border-rose {
+            box-shadow: 0 0 15px rgba(244, 63, 94, 0.25);
+            border: 1px solid rgba(244, 63, 94, 0.4);
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .ambient-glow {
+            animation: pulseGlow 6s ease-in-out infinite;
+        }
+
+        @keyframes breathePulse {
+            0%, 100% { transform: scale(0.9); opacity: 0.3; }
+            50% { transform: scale(1.35); opacity: 0.9; }
+        }
+
+        .breathing-visualizer {
+            animation: breathePulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .ios-btn-active:active {
+            transform: scale(0.96);
+            opacity: 0.9;
+            transition: transform 0.1s ease;
+        }
+
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="min-h-screen antialiased flex flex-col items-center">
+
+    <!-- Top Native Header -->
+    <header class="w-full max-w-md px-5 py-4 flex justify-between items-center sticky top-0 z-40 bg-[#080c14]/80 backdrop-blur-xl border-b border-slate-800/60">
+        <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-cyan-400 via-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                <i class="fa-solid fa-shield-halved text-white text-base"></i>
+            </div>
+            <div>
+                <h1 class="text-sm font-extrabold tracking-tight text-white leading-none">AEGIS PRO</h1>
+                <span class="text-[10px] text-cyan-400 font-bold tracking-widest uppercase">Neural Recovery OS</span>
+            </div>
+        </div>
+        <div class="flex items-center space-x-2">
+            <button onclick="openPanicModal()" class="px-3 py-1.5 text-xs font-bold bg-rose-500/10 text-rose-400 border border-rose-500/30 rounded-xl hover:bg-rose-500/20 active:scale-95 transition flex items-center gap-1.5 shadow-sm shadow-rose-950">
+                <i class="fa-solid fa-bolt text-rose-500 animate-pulse"></i> SOS Panic
+            </button>
+            <button onclick="openIosInstallModal()" class="p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800/50 transition">
+                <i class="fa-solid fa-arrow-down-to-square text-sm"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Dynamic Application Screen Container -->
+    <main class="w-full max-w-md px-4 py-4 space-y-5 flex-1">
+
+        <!-- TAB 1: DASHBOARD -->
+        <div id="tab-dashboard" class="tab-content space-y-5">
+
+            <!-- Daily Neuro-Quote Card -->
+            <div class="glass-card p-4 rounded-2xl border-indigo-500/20 relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-28 h-28 bg-indigo-500/10 rounded-full blur-2xl"></div>
+                <div class="flex items-start gap-3">
+                    <div class="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 shrink-0">
+                        <i class="fa-solid fa-brain text-base"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-[10px] uppercase font-extrabold tracking-wider text-indigo-400">Daily Neuroplasticity Principle</p>
+                        <p id="daily-neuro-quote" class="text-xs text-slate-200 font-medium leading-relaxed">
+                            Loading neural recovery principle...
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Primary Streak Ring Display -->
+            <div class="glass-card-glow rounded-3xl p-6 text-center relative overflow-hidden">
+                <div class="absolute -bottom-12 -right-12 w-36 h-36 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -top-12 -left-12 w-36 h-36 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <p class="text-[11px] font-extrabold uppercase tracking-widest text-cyan-400 mb-1">Active Clean Streak</p>
+                <div class="flex justify-center items-baseline my-1 gap-2">
+                    <span id="dash-streak-days" class="text-6xl font-black tracking-tight text-white drop-shadow-md">0</span>
+                    <span class="text-base font-bold text-slate-400">Days</span>
+                </div>
+                <p id="dash-streak-sub" class="text-xs text-slate-400 font-medium max-w-xs mx-auto mb-5">
+                    Prefrontal cortical receptors actively restoring balance.
+                </p>
+
+                <!-- Main Actions Buttons -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="openCheckinModal()" class="ios-btn-active py-3.5 px-4 rounded-2xl font-bold text-xs bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-check-circle text-sm"></i> Log Clean Day
+                    </button>
+                    <button onclick="triggerFrictionLockout()" class="ios-btn-active py-3.5 px-4 rounded-2xl font-semibold text-xs glass-card text-slate-300 hover:text-white border-slate-700/60 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-shield-virus text-rose-400 text-sm"></i> Post-Mortem
+                    </button>
+                </div>
+            </div>
+
+            <!-- Core Statistics Breakdown -->
+            <div class="grid grid-cols-3 gap-3">
+                <div class="glass-card p-3.5 rounded-2xl text-center space-y-0.5">
+                    <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Clean Ratio</p>
+                    <p id="metric-clean-rate" class="text-xl font-black text-cyan-400">100%</p>
+                    <p id="metric-ratio-text" class="text-[9px] text-slate-500 font-medium">0 / 0 Days</p>
+                </div>
+                <div class="glass-card p-3.5 rounded-2xl text-center space-y-0.5">
+                    <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Total Clean</p>
+                    <p id="metric-total-clean" class="text-xl font-black text-indigo-400">0</p>
+                    <p class="text-[9px] text-slate-500 font-medium">Clean Days</p>
+                </div>
+                <div class="glass-card p-3.5 rounded-2xl text-center space-y-0.5">
+                    <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Best Streak</p>
+                    <p id="metric-best-streak" class="text-xl font-black text-purple-400">0</p>
+                    <p class="text-[9px] text-slate-500 font-medium">Max Streak</p>
+                </div>
+            </div>
+
+            <!-- 30-Day Activity Grid Matrix -->
+            <div class="glass-card rounded-2xl p-4 space-y-3">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-bold text-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-grid text-cyan-400"></i> 30-Day Activity Heatmap
+                    </h3>
+                    <span class="text-[10px] text-slate-400 font-medium">Last 30 Days</span>
+                </div>
+                <div id="activity-heatmap" class="grid grid-cols-10 gap-1.5 pt-1">
+                    <!-- Dynamic heatmap matrix -->
+                </div>
+            </div>
+
+            <!-- Quick Panic Access Banner -->
+            <div onclick="openPanicModal()" class="glass-card p-4 rounded-2xl border-rose-500/30 bg-gradient-to-r from-rose-950/20 to-slate-900 cursor-pointer ios-btn-active flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-400 flex items-center justify-center">
+                        <i class="fa-solid fa-hand-holding-medical text-lg animate-pulse"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-white">Experiencing Intense Urge?</h4>
+                        <p class="text-[10px] text-slate-400">Launch 60s urge-surfing audio & pattern game</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-xs text-slate-500"></i>
+            </div>
+
+        </div>
+
+        <!-- TAB 2: MILESTONES -->
+        <div id="tab-milestones" class="tab-content space-y-4 hidden">
+            <div class="glass-card p-4 rounded-2xl space-y-1">
+                <h3 class="text-xs font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-award text-cyan-400"></i> Dopamine Receptor Milestones
+                </h3>
+                <p class="text-[11px] text-slate-400">Scientific baseline thresholds for neurological recovery.</p>
+            </div>
+
+            <div id="milestones-list" class="space-y-3">
+                <!-- Dynamically populated badge milestones -->
+            </div>
+        </div>
+
+        <!-- TAB 3: POST-MORTEM & HAZARD MAP -->
+        <div id="tab-analytics" class="tab-content space-y-4 hidden">
+
+            <!-- Time-of-Day Vulnerability Map -->
+            <div class="glass-card rounded-2xl p-4 space-y-3">
+                <h3 class="text-xs font-bold text-slate-200 flex items-center gap-2">
+                    <i class="fa-solid fa-clock text-amber-400"></i> Time Hazard Distribution
+                </h3>
+                <p class="text-[11px] text-slate-400">Peaks where temptations or relapses occurred most frequently.</p>
+                <div id="time-hazard-grid" class="grid grid-cols-2 gap-2 pt-1">
+                    <!-- Dynamic time hazard slots -->
+                </div>
+            </div>
+
+            <!-- Primary Trigger Analytics -->
+            <div class="glass-card rounded-2xl p-4 space-y-3">
+                <h3 class="text-xs font-bold text-slate-200 flex items-center gap-2">
+                    <i class="fa-solid fa-chart-pie text-indigo-400"></i> Primary Trigger Breakdown
+                </h3>
+                <div id="trigger-analytics-bars" class="space-y-2.5">
+                    <!-- Dynamic trigger percentage bars -->
+                </div>
+            </div>
+
+            <!-- Journal / Post-Mortem Archive -->
+            <div class="glass-card rounded-2xl p-4 space-y-3">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-bold text-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-box-archive text-slate-400"></i> Post-Mortem Log Archive
+                    </h3>
+                </div>
+                <div id="journal-history-list" class="space-y-2 max-h-72 overflow-y-auto">
+                    <!-- Dynamic journal history entries -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TAB 4: SETTINGS & INSTALL -->
+        <div id="tab-settings" class="tab-content space-y-4 hidden">
+
+            <div class="glass-card rounded-2xl p-4 space-y-3">
+                <h3 class="text-xs font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-mobile-screen-button text-cyan-400"></i> iPhone Home Screen App
+                </h3>
+                <p class="text-[11px] text-slate-400 leading-relaxed">
+                    Install AEGIS on your iPhone for full screen native execution and instant access during urge moments.
+                </p>
+                <button onclick="openIosInstallModal()" class="w-full py-2.5 px-4 rounded-xl font-bold text-xs bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 flex items-center justify-between">
+                    <span>View iOS Installation Visual Guide</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </button>
+            </div>
+
+            <!-- Custom Emergency Coping Library -->
+            <div class="glass-card rounded-2xl p-4 space-y-3">
+                <h3 class="text-xs font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-shield-heart text-rose-400"></i> Custom Coping Library
+                </h3>
+                <div class="flex gap-2">
+                    <input type="text" id="setting-coping-input" placeholder="e.g., Cold splash, 20 squats..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500">
+                    <button onclick="addCustomCopingStrategy()" class="px-3.5 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold rounded-xl text-xs whitespace-nowrap">
+                        Add
+                    </button>
+                </div>
+                <ul id="setting-coping-list" class="space-y-1.5 max-h-36 overflow-y-auto">
+                    <!-- Custom strategies -->
+                </ul>
+            </div>
+
+            <!-- Data Management & Backups -->
+            <div class="glass-card rounded-2xl p-4 space-y-3 border-slate-800">
+                <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Data & Backups</h3>
+                <button onclick="exportDataJSON()" class="w-full py-2.5 px-4 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 text-xs font-semibold flex items-center justify-between">
+                    <span>Export Local Backup (JSON)</span>
+                    <i class="fa-solid fa-download text-slate-400"></i>
+                </button>
+
+                <div class="relative">
+                    <input type="file" id="import-file-input" onchange="importDataJSON(event)" class="hidden" accept=".json">
+                    <button onclick="document.getElementById('import-file-input').click()" class="w-full py-2.5 px-4 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 text-xs font-semibold flex items-center justify-between">
+                        <span>Import Backup JSON</span>
+                        <i class="fa-solid fa-upload text-slate-400"></i>
+                    </button>
+                </div>
+
+                <button onclick="confirmResetAllData()" class="w-full py-2.5 px-4 rounded-xl border border-rose-900/40 bg-rose-950/20 text-rose-400 text-xs font-semibold flex items-center justify-between">
+                    <span>Wipe All Local Storage</span>
+                    <i class="fa-solid fa-trash text-rose-400"></i>
+                </button>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Native iOS Style Bottom Tab Navigation Bar -->
+    <nav class="fixed bottom-0 inset-x-0 z-40 bg-[#080c14]/90 backdrop-blur-2xl border-t border-slate-800/80 px-6 py-2">
+        <div class="max-w-md mx-auto flex justify-around items-center">
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn flex flex-col items-center gap-1 text-cyan-400">
+                <i class="fa-solid fa-house text-base"></i>
+                <span class="text-[9px] font-extrabold uppercase tracking-wider">Home</span>
+            </button>
+            <button onclick="switchTab('milestones')" id="nav-milestones" class="nav-btn flex flex-col items-center gap-1 text-slate-500">
+                <i class="fa-solid fa-award text-base"></i>
+                <span class="text-[9px] font-bold uppercase tracking-wider">Badges</span>
+            </button>
+            <button onclick="switchTab('analytics')" id="nav-analytics" class="nav-btn flex flex-col items-center gap-1 text-slate-500">
+                <i class="fa-solid fa-chart-line text-base"></i>
+                <span class="text-[9px] font-bold uppercase tracking-wider">Analytics</span>
+            </button>
+            <button onclick="switchTab('settings')" id="nav-settings" class="nav-btn flex flex-col items-center gap-1 text-slate-500">
+                <i class="fa-solid fa-gear text-base"></i>
+                <span class="text-[9px] font-bold uppercase tracking-wider">Settings</span>
+            </button>
+        </div>
+    </nav>
+
+
+    <!-- EMERGENCY PANIC MODE MODAL -->
+    <div id="panic-modal" class="fixed inset-0 bg-[#080c14]/95 backdrop-blur-2xl z-50 hidden flex flex-col items-center justify-between p-6">
+        <div class="w-full max-w-md flex justify-between items-center">
+            <span class="text-xs font-black tracking-widest text-rose-500 uppercase flex items-center gap-2">
+                <i class="fa-solid fa-bolt animate-pulse"></i> Urge Surfing & Interception
+            </span>
+            <button onclick="closePanicModal()" class="text-slate-400 hover:text-white p-2">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <div class="w-full max-w-md text-center space-y-6 my-auto">
+            <!-- Breathing Visualizer -->
+            <div class="relative w-40 h-40 mx-auto flex items-center justify-center">
+                <div class="absolute inset-0 rounded-full bg-cyan-500/20 border border-cyan-500/40 breathing-visualizer"></div>
+                <div class="absolute inset-4 rounded-full bg-indigo-600/20 border border-indigo-500/30"></div>
+                <div class="z-10 space-y-0.5">
+                    <span id="panic-timer-count" class="text-4xl font-black text-white">60</span>
+                    <p id="panic-breath-phase" class="text-[10px] font-extrabold text-cyan-300 uppercase tracking-widest">Inhale Deeply</p>
+                </div>
+            </div>
+
+            <!-- Dynamic Coping Tip -->
+            <div class="glass-card p-4 rounded-2xl text-left space-y-2 border-indigo-500/30">
+                <div class="flex justify-between items-center">
+                    <span class="text-[10px] font-extrabold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-lightbulb"></i> Action Prompt
+                    </span>
+                    <button onclick="toggleBrownNoiseSound()" id="sound-btn" class="text-[10px] text-cyan-400 border border-cyan-500/30 bg-cyan-500/10 px-2 py-0.5 rounded-lg flex items-center gap-1">
+                        <i class="fa-solid fa-volume-xmark"></i> Synth Sound
+                    </button>
+                </div>
+                <p id="panic-coping-text" class="text-xs text-slate-200 font-semibold leading-relaxed">
+                    Loading action strategy...
+                </p>
+            </div>
+
+            <!-- Simon-Says Pattern Memory Game for Mind Interception -->
+            <div class="glass-card p-4 rounded-2xl text-center space-y-3">
+                <div class="flex justify-between items-center">
+                    <span class="text-[10px] font-extrabold text-purple-400 uppercase tracking-wider">Pattern Distraction Challenge</span>
+                    <span id="game-score" class="text-[10px] font-bold text-slate-400">Score: 0</span>
+                </div>
+                <p id="game-status" class="text-xs text-slate-300 font-semibold">Tap Start to hijack urge focus</p>
+                <div class="grid grid-cols-3 gap-2 max-w-xs mx-auto" id="simon-buttons">
+                    <button onclick="handleSimonTap(0)" class="simon-btn h-12 rounded-xl bg-slate-800 border border-slate-700 active:bg-cyan-500 transition" data-idx="0"></button>
+                    <button onclick="handleSimonTap(1)" class="simon-btn h-12 rounded-xl bg-slate-800 border border-slate-700 active:bg-indigo-500 transition" data-idx="1"></button>
+                    <button onclick="handleSimonTap(2)" class="simon-btn h-12 rounded-xl bg-slate-800 border border-slate-700 active:bg-purple-500 transition" data-idx="2"></button>
+                </div>
+                <button onclick="startSimonGame()" class="py-1.5 px-4 rounded-xl bg-indigo-600 text-white font-bold text-xs">
+                    Start Pattern Distraction
+                </button>
+            </div>
+        </div>
+
+        <div class="w-full max-w-md">
+            <button id="panic-close-btn" disabled onclick="closePanicModal()" class="w-full py-3.5 rounded-2xl font-bold text-xs bg-slate-800 text-slate-500 cursor-not-allowed transition">
+                Complete Grounding (60s)
+            </button>
+        </div>
+    </div>
+
+    <!-- COGNITIVE FRICTION LOCKOUT MODAL -->
+    <div id="friction-modal" class="fixed inset-0 bg-black/90 backdrop-blur-2xl z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card w-full max-w-md rounded-3xl p-6 space-y-5 border-rose-500/30">
+            <div class="text-center space-y-2">
+                <div class="w-12 h-12 rounded-2xl bg-rose-500/20 border border-rose-500/40 text-rose-400 flex items-center justify-center mx-auto text-xl">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <h3 class="text-sm font-extrabold text-white">Prefrontal Friction Gate</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Solve this quick math verification to confirm top-down brain control before logging a relapse.
+                </p>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl text-center space-y-3">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Solve Equation</p>
+                <div id="math-question-text" class="text-3xl font-black text-cyan-400 tracking-wider">
+                    14 + 23 = ?
+                </div>
+                <input type="number" id="math-user-input" placeholder="Enter Answer" class="w-full text-center bg-slate-950 border border-slate-700 rounded-xl py-3 text-base font-bold text-white focus:outline-none focus:border-cyan-500">
+            </div>
+
+            <div class="flex gap-2">
+                <button onclick="closeFrictionModal()" class="w-1/2 py-3 rounded-2xl font-bold text-xs border border-slate-700 text-slate-300">
+                    Cancel (I'm Holding Clean)
+                </button>
+                <button onclick="verifyFrictionAnswer()" class="w-1/2 py-3 rounded-2xl font-bold text-xs bg-rose-600 text-white shadow-lg shadow-rose-600/30">
+                    Verify & Proceed
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DAILY CHECK-IN MODAL -->
+    <div id="checkin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-xl z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card w-full max-w-md rounded-3xl p-6 space-y-5 border-slate-700/60 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-check-circle text-cyan-400"></i> Log Clean Day
+                </h3>
+                <button onclick="closeCheckinModal()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form id="checkin-form" onsubmit="saveCleanCheckin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-extrabold text-slate-300 uppercase tracking-wider mb-2">
+                        Urge Intensity (1 = Calm, 5 = Severe)
+                    </label>
+                    <div class="flex justify-between items-center gap-3">
+                        <input type="range" id="checkin-urge-slider" min="1" max="5" value="1" oninput="document.getElementById('checkin-urge-num').innerText = this.value" class="w-full accent-cyan-400 h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer">
+                        <span id="checkin-urge-num" class="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-bold flex items-center justify-center text-sm">1</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-extrabold text-slate-300 uppercase tracking-wider mb-2">
+                        Triggers Overcome
+                    </label>
+                    <div class="grid grid-cols-2 gap-2" id="checkin-trigger-chips">
+                        <button type="button" onclick="toggleChip(this)" data-val="Boredom" class="chip py-2 px-3 text-xs rounded-xl border border-slate-800 bg-slate-900 text-slate-400 text-left">
+                            <i class="fa-solid fa-bed mr-1.5"></i> Boredom
+                        </button>
+                        <button type="button" onclick="toggleChip(this)" data-val="Stress" class="chip py-2 px-3 text-xs rounded-xl border border-slate-800 bg-slate-900 text-slate-400 text-left">
+                            <i class="fa-solid fa-brain mr-1.5"></i> Stress
+                        </button>
+                        <button type="button" onclick="toggleChip(this)" data-val="Fatigue" class="chip py-2 px-3 text-xs rounded-xl border border-slate-800 bg-slate-900 text-slate-400 text-left">
+                            <i class="fa-solid fa-battery-quarter mr-1.5"></i> Fatigue
+                        </button>
+                        <button type="button" onclick="toggleChip(this)" data-val="Isolation" class="chip py-2 px-3 text-xs rounded-xl border border-slate-800 bg-slate-900 text-slate-400 text-left">
+                            <i class="fa-solid fa-user-slash mr-1.5"></i> Isolation
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-extrabold text-slate-300 uppercase tracking-wider mb-2">
+                        Reflection Note
+                    </label>
+                    <textarea id="checkin-note-text" rows="2" placeholder="What boundary helped you succeed today?" class="w-full bg-slate-900 border border-slate-800 rounded-2xl p-3 text-xs text-white focus:outline-none focus:border-cyan-500 resize-none"></textarea>
+                </div>
+
+                <button type="submit" class="w-full py-3.5 rounded-2xl font-bold text-xs bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-lg shadow-indigo-600/30">
+                    Save Clean Log
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- POST-MORTEM RELAPSE MODAL -->
+    <div id="relapse-modal" class="fixed inset-0 bg-black/80 backdrop-blur-xl z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card w-full max-w-md rounded-3xl p-6 space-y-5 border-rose-500/40 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="text-sm font-bold text-rose-400 flex items-center gap-2">
+                    <i class="fa-solid fa-clipboard-question"></i> Post-Mortem Analysis
+                </h3>
+                <button onclick="closeRelapseModal()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form id="relapse-form" onsubmit="saveRelapsePostMortem(event)" class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-extrabold text-slate-300 uppercase tracking-wider mb-2">Primary Root Trigger</label>
+                    <select id="relapse-trigger-select" required class="w-full bg-slate-900 border border-slate-800 rounded-2xl p-3 text-xs text-white focus:outline-none focus:border-rose-500">
+                        <option value="Boredom">Boredom / Lack of structure</option>
+                        <option value="Stress">Stress / Emotional coping</option>
+                        <option value="Fatigue">Physical Fatigue / Low energy</option>
+                        <option value="Isolation">Isolation / Alone time</option>
+                        <option value="Social Media">Social Media / Accidental cue</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-extrabold text-slate-300 uppercase tracking-wider mb-2">Time Hazard Window</label>
+                    <select id="relapse-time-select" required class="w-full bg-slate-900 border border-slate-800 rounded-2xl p-3 text-xs text-white focus:outline-none focus:border-rose-500">
+                        <option value="Late Night (11PM-3AM)">Late Night (11 PM - 3 AM)</option>
+                        <option value="Early Morning (4AM-8AM)">Early Morning (4 AM - 8 AM)</option>
+                        <option value="Afternoon (12PM-5PM)">Afternoon (12 PM - 5 PM)</option>
+                        <option value="Evening (6PM-10PM)">Evening (6 PM - 10 PM)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-extrabold text-slate-300 uppercase tracking-wider mb-2">Environment / Location</label>
+                    <input type="text" id="relapse-env-input" placeholder="e.g., In bed with phone, alone on couch" required class="w-full bg-slate-900 border border-slate-800 rounded-2xl p-3 text-xs text-white focus:outline-none focus:border-rose-500">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-extrabold text-slate-300 uppercase tracking-wider mb-2">Friction Strategy for Next Time</label>
+                    <textarea id="relapse-plan-input" rows="2" placeholder="What physical barrier will stop this exact trigger?" required class="w-full bg-slate-900 border border-slate-800 rounded-2xl p-3 text-xs text-white focus:outline-none focus:border-rose-500 resize-none"></textarea>
+                </div>
+
+                <button type="submit" class="w-full py-3.5 rounded-2xl font-bold text-xs bg-rose-600 text-white shadow-lg shadow-rose-600/30">
+                    Save Post-Mortem & Reset Streak
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- IPHONE SAVE TO HOME SCREEN VISUAL GUIDE MODAL -->
+    <div id="ios-install-modal" class="fixed inset-0 bg-black/85 backdrop-blur-2xl z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card w-full max-w-md rounded-3xl p-6 space-y-5 border-cyan-500/30 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                    <i class="fa-brands fa-apple text-cyan-400 text-lg"></i> Add AEGIS to iPhone Home Screen
+                </h3>
+                <button onclick="closeIosInstallModal()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4">
+                <div class="flex items-start gap-3 p-3 rounded-2xl bg-slate-900/80 border border-slate-800">
+                    <div class="w-7 h-7 rounded-full bg-cyan-500/20 text-cyan-400 font-extrabold text-xs flex items-center justify-center shrink-0">1</div>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Tap the <strong class="text-white"><i class="fa-solid fa-share-nodes text-cyan-400"></i> Share button</strong> in Safari's bottom toolbar.
+                    </p>
+                </div>
+
+                <div class="flex items-start gap-3 p-3 rounded-2xl bg-slate-900/80 border border-slate-800">
+                    <div class="w-7 h-7 rounded-full bg-indigo-500/20 text-indigo-400 font-extrabold text-xs flex items-center justify-center shrink-0">2</div>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Scroll down and tap <strong class="text-white"><i class="fa-regular fa-square-plus text-indigo-400"></i> Add to Home Screen</strong>.
+                    </p>
+                </div>
+
+                <div class="flex items-start gap-3 p-3 rounded-2xl bg-slate-900/80 border border-slate-800">
+                    <div class="w-7 h-7 rounded-full bg-purple-500/20 text-purple-400 font-extrabold text-xs flex items-center justify-center shrink-0">3</div>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Tap <strong class="text-white">Add</strong> in the top right corner. AEGIS will appear on your iPhone home screen with its custom icon!
+                    </p>
+                </div>
+            </div>
+
+            <button onclick="closeIosInstallModal()" class="w-full py-3 rounded-2xl font-bold text-xs bg-slate-800 text-slate-200">
+                Got It
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'aegis_mastery_state_v3';
+
+        const NEURO_PRINICPLES = [
+            "Dopamine receptor density (D2) upregulates after 7-14 days of reduced compulsive over-stimulation.",
+            "Urges are involuntary neuro-electrical spikes that peak within 90 seconds. Surfing them disrupts automatic impulse loops.",
+            "Prefrontal cortical thickness increases with deliberate impulse inhibition, expanding top-down executive control.",
+            "Relapses happen in low-friction environments. Physical barriers and routines are stronger than willpower."
+        ];
+
+        const DEFAULT_COPING = [
+            "Do 15 immediate pushups or a 60-second floor plank to divert blood flow.",
+            "Splash cold water directly on your face to activate the mammalian dive reflex.",
+            "Leave the room immediately and move to a open or public space.",
+            "Place your phone in another room and sit quietly for 3 minutes."
+        ];
+
+        let state = {
+            logs: {},
+            copingStrategies: [...DEFAULT_COPING]
+        };
+
+        let panicInterval = null;
+        let panicTimeRemaining = 60;
+        let simonSequence = [];
+        let simonPlayerIndex = 0;
+        let mathTargetAnswer = 0;
+        let audioContext = null;
+        let noiseOscillator = null;
+
+        window.onload = function() {
+            generateDynamicAppleTouchIcon();
+            loadState();
+            renderDashboard();
+            displayNeuroPrinciple();
+        };
+
+        // Generates a crisp iOS App Icon dynamically as an Inline Data URL
+        function generateDynamicAppleTouchIcon() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 180;
+            canvas.height = 180;
+            const ctx = canvas.getContext('2d');
+
+            // Gradient Background
+            const grad = ctx.createLinearGradient(0, 0, 180, 180);
+            grad.addColorStop(0, '#06b6d4');
+            grad.addColorStop(0.5, '#4f46e5');
+            grad.addColorStop(1, '#080c14');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 180, 180);
+
+            // Shield Symbol
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.moveTo(90, 40);
+            ctx.lineTo(135, 60);
+            ctx.lineTo(135, 105);
+            ctx.quadraticCurveTo(90, 145, 90, 145);
+            ctx.quadraticCurveTo(45, 105, 45, 60);
+            ctx.closePath();
+            ctx.fill();
+
+            const iconDataUrl = canvas.toDataURL('image/png');
+            document.getElementById('apple-icon-link').href = iconDataUrl;
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    state = { ...state, ...JSON.parse(saved) };
+                } catch (e) {
+                    console.error("Failed loading state", e);
+                }
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }
+
+        function displayNeuroPrinciple() {
+            const text = NEURO_PRINICPLES[Math.floor(Math.random() * NEURO_PRINICPLES.length)];
+            document.getElementById('daily-neuro-quote').innerText = text;
+        }
+
+        function calculateMetrics() {
+            const dates = Object.keys(state.logs).sort();
+            let currentStreak = 0;
+            let totalClean = 0;
+            let totalRelapses = 0;
+            let maxStreak = 0;
+
+            const todayStr = new Date().toISOString().split('T')[0];
+
+            Object.values(state.logs).forEach(log => {
+                if (log.type === 'clean') totalClean++;
+                if (log.type === 'relapse') totalRelapses++;
+            });
+
+            // Calculate active streak
+            let tempDate = new Date();
+            while (true) {
+                const dateStr = tempDate.toISOString().split('T')[0];
+                const log = state.logs[dateStr];
+
+                if (log && log.type === 'clean') {
+                    currentStreak++;
+                    tempDate.setDate(tempDate.getDate() - 1);
+                } else if (log && log.type === 'relapse') {
+                    break;
+                } else {
+                    if (dateStr !== todayStr) break;
+                    tempDate.setDate(tempDate.getDate() - 1);
+                }
+            }
+
+            // Calculate best all-time streak
+            let temp = 0;
+            dates.forEach(d => {
+                if (state.logs[d].type === 'clean') {
+                    temp++;
+                    if (temp > maxStreak) maxStreak = temp;
+                } else {
+                    temp = 0;
+                }
+            });
+
+            const totalLogged = totalClean + totalRelapses;
+            const cleanRate = totalLogged > 0 ? Math.round((totalClean / totalLogged) * 100) : 100;
+
+            return { currentStreak, totalClean, totalRelapses, maxStreak, cleanRate, totalLogged };
+        }
+
+        function renderDashboard() {
+            const metrics = calculateMetrics();
+
+            document.getElementById('dash-streak-days').innerText = metrics.currentStreak;
+            document.getElementById('metric-clean-rate').innerText = metrics.cleanRate + '%';
+            document.getElementById('metric-ratio-text').innerText = `${metrics.totalClean} / ${metrics.totalLogged} Days`;
+            document.getElementById('metric-total-clean').innerText = metrics.totalClean;
+            document.getElementById('metric-best-streak').innerText = metrics.maxStreak;
+
+            renderHeatmap();
+            renderMilestones(metrics.currentStreak);
+            renderTimeHazardMap();
+            renderTriggerAnalytics();
+            renderJournalHistory();
+            renderCopingListSettings();
+        }
+
+        function renderHeatmap() {
+            const container = document.getElementById('activity-heatmap');
+            container.innerHTML = '';
+            const today = new Date();
+
+            for (let i = 29; i >= 0; i--) {
+                const d = new Date();
+                d.setDate(today.getDate() - i);
+                const dateStr = d.toISOString().split('T')[0];
+                const log = state.logs[dateStr];
+
+                const box = document.createElement('div');
+                box.className = 'h-7 rounded-lg border flex items-center justify-center text-[10px] font-bold transition';
+
+                if (log && log.type === 'clean') {
+                    box.className += ' bg-cyan-500/20 border-cyan-500/40 text-cyan-300';
+                } else if (log && log.type === 'relapse') {
+                    box.className += ' bg-rose-500/20 border-rose-500/40 text-rose-300';
+                } else {
+                    box.className += ' bg-slate-900 border-slate-800/80 text-slate-600';
+                }
+
+                box.innerText = d.getDate();
+                container.appendChild(box);
+            }
+        }
+
+        function renderMilestones(currentStreak) {
+            const milestones = [
+                { days: 3, label: "Acute Phase Clear", desc: "Initial neuro-chemical withdrawal peaks subside." },
+                { days: 7, label: "Androgen Baseline", desc: "Energy & attention focus shifts upward." },
+                { days: 14, label: "D2 Upregulation", desc: "Dopamine receptors begin restoring sensitivity." },
+                { days: 30, label: "Prefrontal Restructuring", desc: "Top-down impulse inhibition strengthens." },
+                { days: 90, label: "Neural Consolidation", desc: "Baseline habit pathway rewiring completed." }
+            ];
+
+            const container = document.getElementById('milestones-list');
+            container.innerHTML = '';
+
+            milestones.forEach(m => {
+                const isUnlocked = currentStreak >= m.days;
+                const pct = Math.min(100, Math.round((currentStreak / m.days) * 100));
+
+                const card = document.createElement('div');
+                card.className = `glass-card p-4 rounded-2xl space-y-2 border ${isUnlocked ? 'border-cyan-500/40' : 'border-slate-800'}`;
+                card.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold ${isUnlocked ? 'text-cyan-400' : 'text-slate-400'}">
+                            ${isUnlocked ? '<i class="fa-solid fa-award mr-1"></i>' : '<i class="fa-solid fa-lock mr-1 text-slate-600"></i>'} Day ${m.days}: ${m.label}
+                        </span>
+                        <span class="text-[10px] font-bold text-slate-500">${pct}%</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400">${m.desc}</p>
+                    <div class="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                        <div class="h-full ${isUnlocked ? 'bg-cyan-400' : 'bg-indigo-600'}" style="width: ${pct}%"></div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderTimeHazardMap() {
+            const container = document.getElementById('time-hazard-grid');
+            const windows = {
+                'Late Night (11PM-3AM)': 0,
+                'Early Morning (4AM-8AM)': 0,
+                'Afternoon (12PM-5PM)': 0,
+                'Evening (6PM-10PM)': 0
+            };
+
+            let total = 0;
+            Object.values(state.logs).forEach(log => {
+                if (log.type === 'relapse' && log.timeWindow) {
+                    if (windows[log.timeWindow] !== undefined) {
+                        windows[log.timeWindow]++;
+                        total++;
+                    }
+                }
+            });
+
+            container.innerHTML = '';
+            Object.entries(windows).forEach(([win, count]) => {
+                const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+                const card = document.createElement('div');
+                card.className = 'p-3 rounded-2xl bg-slate-900/80 border border-slate-800 text-center space-y-1';
+                card.innerHTML = `
+                    <p class="text-[10px] font-bold text-slate-400">${win.split(' ')[0]}</p>
+                    <p class="text-base font-black ${count > 0 ? 'text-rose-400' : 'text-slate-500'}">${count}</p>
+                    <p class="text-[9px] text-slate-500">${pct}% hazards</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderTriggerAnalytics() {
+            const container = document.getElementById('trigger-analytics-bars');
+            const counts = { Boredom: 0, Stress: 0, Fatigue: 0, Isolation: 0 };
+            let total = 0;
+
+            Object.values(state.logs).forEach(log => {
+                if (log.triggers && Array.isArray(log.triggers)) {
+                    log.triggers.forEach(t => { if (counts[t] !== undefined) { counts[t]++; total++; } });
+                }
+                if (log.type === 'relapse' && log.trigger && counts[log.trigger] !== undefined) {
+                    counts[log.trigger]++; total++;
+                }
+            });
+
+            if (total === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-500 text-center py-2">No trigger data logged yet.</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+            Object.entries(counts).forEach(([trig, cnt]) => {
+                const pct = Math.round((cnt / total) * 100);
+                const item = document.createElement('div');
+                item.className = 'space-y-1';
+                item.innerHTML = `
+                    <div class="flex justify-between text-xs text-slate-300">
+                        <span class="font-semibold">${trig}</span>
+                        <span class="text-slate-500">${cnt} times (${pct}%)</span>
+                    </div>
+                    <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                        <div class="h-full bg-cyan-500" style="width: ${pct}%"></div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function renderJournalHistory() {
+            const container = document.getElementById('journal-history-list');
+            container.innerHTML = '';
+
+            const dates = Object.keys(state.logs).sort().reverse();
+            if (dates.length === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-500 text-center py-2">No post-mortem entries.</p>';
+                return;
+            }
+
+            dates.forEach(d => {
+                const log = state.logs[d];
+                const card = document.createElement('div');
+                card.className = 'p-3 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-1 text-xs';
+
+                if (log.type === 'clean') {
+                    card.innerHTML = `
+                        <div class="flex justify-between text-cyan-400 font-bold">
+                            <span><i class="fa-solid fa-circle-check"></i> Clean Log</span>
+                            <span class="text-[10px] text-slate-500">${d}</span>
+                        </div>
+                        ${log.note ? `<p class="text-slate-300 italic">"${log.note}"</p>` : ''}
+                    `;
+                } else {
+                    card.innerHTML = `
+                        <div class="flex justify-between text-rose-400 font-bold">
+                            <span><i class="fa-solid fa-triangle-exclamation"></i> Relapse Post-Mortem</span>
+                            <span class="text-[10px] text-slate-500">${d}</span>
+                        </div>
+                        <p class="text-slate-300"><strong>Trigger:</strong> ${log.trigger}</p>
+                        ${log.plan ? `<p class="text-cyan-300 italic"><strong>Next Plan:</strong> "${log.plan}"</p>` : ''}
+                    `;
+                }
+                container.appendChild(card);
+            });
+        }
+
+        // Navigation Tabs Engine
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-cyan-400');
+                btn.classList.add('text-slate-500');
+            });
+            document.getElementById(`nav-${tabId}`).classList.remove('text-slate-500');
+            document.getElementById(`nav-${tabId}`).classList.add('text-cyan-400');
+        }
+
+        // Simon Pattern Mini-Game
+        function startSimonGame() {
+            simonSequence = [Math.floor(Math.random()*3), Math.floor(Math.random()*3), Math.floor(Math.random()*3)];
+            simonPlayerIndex = 0;
+            document.getElementById('game-status').innerText = 'Watch sequence...';
+            playSimonSequence();
+        }
+
+        function playSimonSequence() {
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i >= simonSequence.length) {
+                    clearInterval(interval);
+                    document.getElementById('game-status').innerText = 'Repeat the sequence!';
+                    return;
+                }
+                flashSimonButton(simonSequence[i]);
+                i++;
+            }, 600);
+        }
+
+        function flashSimonButton(idx) {
+            const btns = document.querySelectorAll('.simon-btn');
+            btns[idx].classList.add('bg-cyan-400');
+            setTimeout(() => btns[idx].classList.remove('bg-cyan-400'), 300);
+        }
+
+        function handleSimonTap(idx) {
+            if (simonSequence.length === 0) return;
+            flashSimonButton(idx);
+
+            if (idx === simonSequence[simonPlayerIndex]) {
+                simonPlayerIndex++;
+                if (simonPlayerIndex === simonSequence.length) {
+                    document.getElementById('game-status').innerText = 'Correct! Next round added.';
+                    document.getElementById('game-score').innerText = `Score: ${simonSequence.length}`;
+                    simonSequence.push(Math.floor(Math.random()*3));
+                    simonPlayerIndex = 0;
+                    setTimeout(playSimonSequence, 1000);
+                }
+            } else {
+                document.getElementById('game-status').innerText = 'Wrong pattern. Tap Start to try again.';
+                simonSequence = [];
+            }
+        }
+
+        // Synthesizer Audio Engine for Calming Noise
+        function toggleBrownNoiseSound() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            if (noiseOscillator) {
+                noiseOscillator.stop();
+                noiseOscillator = null;
+                document.getElementById('sound-btn').innerHTML = '<i class="fa-solid fa-volume-xmark"></i> Synth Sound';
+                return;
+            }
+
+            const bufferSize = audioContext.sampleRate * 2;
+            const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+            const data = buffer.getChannelData(0);
+            let lastOut = 0.0;
+            for (let i = 0; i < bufferSize; i++) {
+                const white = Math.random() * 2 - 1;
+                data[i] = (lastOut + (0.02 * white)) / 1.02;
+                lastOut = data[i];
+                data[i] *= 3.5;
+            }
+
+            noiseOscillator = audioContext.createBufferSource();
+            noiseOscillator.buffer = buffer;
+            noiseOscillator.loop = true;
+            noiseOscillator.connect(audioContext.destination);
+            noiseOscillator.start();
+            document.getElementById('sound-btn').innerHTML = '<i class="fa-solid fa-volume-high text-cyan-400"></i> Sound Active';
+        }
+
+        // Friction Math Gate
+        function triggerFrictionLockout() {
+            const n1 = Math.floor(Math.random() * 20) + 10;
+            const n2 = Math.floor(Math.random() * 20) + 10;
+            mathTargetAnswer = n1 + n2;
+
+            document.getElementById('math-question-text').innerText = `${n1} + ${n2} = ?`;
+            document.getElementById('math-user-input').value = '';
+            document.getElementById('friction-modal').classList.remove('hidden');
+        }
+
+        function closeFrictionModal() { document.getElementById('friction-modal').classList.add('hidden'); }
+
+        function verifyFrictionAnswer() {
+            const val = parseInt(document.getElementById('math-user-input').value);
+            if (val === mathTargetAnswer) {
+                closeFrictionModal();
+                openRelapseModal();
+            } else {
+                alert('Incorrect. Take a deep breath and recalculate.');
+            }
+        }
+
+        // Modals & Handlers
+        function openPanicModal() {
+            document.getElementById('panic-modal').classList.remove('hidden');
+            document.getElementById('panic-coping-text').innerText = state.copingStrategies[Math.floor(Math.random() * state.copingStrategies.length)];
+
+            panicTimeRemaining = 60;
+            const btn = document.getElementById('panic-close-btn');
+            btn.disabled = true;
+            btn.className = "w-full py-3.5 rounded-2xl font-bold text-xs bg-slate-800 text-slate-500 cursor-not-allowed";
+
+            if (panicInterval) clearInterval(panicInterval);
+
+            panicInterval = setInterval(() => {
+                panicTimeRemaining--;
+                document.getElementById('panic-timer-count').innerText = panicTimeRemaining;
+
+                const phase = document.getElementById('panic-breath-phase');
+                if (panicTimeRemaining % 16 >= 12) phase.innerText = "Exhale Slowly";
+                else if (panicTimeRemaining % 16 >= 8) phase.innerText = "Hold Breath";
+                else if (panicTimeRemaining % 16 >= 4) phase.innerText = "Inhale Deeply";
+                else phase.innerText = "Hold Breath";
+
+                if (panicTimeRemaining <= 0) {
+                    clearInterval(panicInterval);
+                    btn.disabled = false;
+                    btn.className = "w-full py-3.5 rounded-2xl font-bold text-xs bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30 cursor-pointer";
+                    btn.innerText = "Return to Dashboard";
+                } else {
+                    btn.innerText = `Complete Grounding (${panicTimeRemaining}s)`;
+                }
+            }, 1000);
+        }
+
+        function closePanicModal() {
+            if (panicInterval) clearInterval(panicInterval);
+            if (noiseOscillator) toggleBrownNoiseSound();
+            document.getElementById('panic-modal').classList.add('hidden');
+        }
+
+        function openCheckinModal() { document.getElementById('checkin-modal').classList.remove('hidden'); }
+        function closeCheckinModal() { document.getElementById('checkin-modal').classList.add('hidden'); }
+        function openRelapseModal() { document.getElementById('relapse-modal').classList.remove('hidden'); }
+        function closeRelapseModal() { document.getElementById('relapse-modal').classList.add('hidden'); }
+        function openIosInstallModal() { document.getElementById('ios-install-modal').classList.remove('hidden'); }
+        function closeIosInstallModal() { document.getElementById('ios-install-modal').classList.add('hidden'); }
+
+        function toggleChip(btn) {
+            btn.classList.toggle('border-cyan-500');
+            btn.classList.toggle('text-cyan-300');
+            btn.classList.toggle('bg-cyan-500/10');
+        }
+
+        function saveCleanCheckin(e) {
+            e.preventDefault();
+            const todayStr = new Date().toISOString().split('T')[0];
+            const urge = document.getElementById('checkin-urge-slider').value;
+            const note = document.getElementById('checkin-note-text').value;
+
+            const selectedTriggers = [];
+            document.querySelectorAll('#checkin-trigger-chips .border-cyan-500').forEach(el => {
+                selectedTriggers.push(el.getAttribute('data-val'));
+            });
+
+            state.logs[todayStr] = { type: 'clean', urge: parseInt(urge), triggers: selectedTriggers, note };
+            saveState();
+            renderDashboard();
+            closeCheckinModal();
+        }
+
+        function saveRelapsePostMortem(e) {
+            e.preventDefault();
+            const todayStr = new Date().toISOString().split('T')[0];
+            const trigger = document.getElementById('relapse-trigger-select').value;
+            const timeWindow = document.getElementById('relapse-time-select').value;
+            const environment = document.getElementById('relapse-env-input').value;
+            const plan = document.getElementById('relapse-plan-input').value;
+
+            state.logs[todayStr] = { type: 'relapse', trigger, timeWindow, environment, plan };
+            saveState();
+            renderDashboard();
+            closeRelapseModal();
+        }
+
+        function addCustomCopingStrategy() {
+            const input = document.getElementById('setting-coping-input');
+            const val = input.value.trim();
+            if (val) {
+                state.copingStrategies.push(val);
+                input.value = '';
+                saveState();
+                renderCopingListSettings();
+            }
+        }
+
+        function removeCopingStrategy(idx) {
+            state.copingStrategies.splice(idx, 1);
+            saveState();
+            renderCopingListSettings();
+        }
+
+        function renderCopingListSettings() {
+            const container = document.getElementById('setting-coping-list');
+            if (!container) return;
+            container.innerHTML = '';
+
+            state.copingStrategies.forEach((strat, idx) => {
+                const li = document.createElement('li');
+                li.className = "flex justify-between items-center text-xs p-2.5 bg-slate-900 border border-slate-800 rounded-xl text-slate-300";
+                li.innerHTML = `
+                    <span class="truncate pr-2">${strat}</span>
+                    <button onclick="removeCopingStrategy(${idx})" class="text-rose-400 hover:text-rose-300 p-1">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                `;
+                container.appendChild(li);
+            });
+        }
+
+        function exportDataJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state, null, 2));
+            const a = document.createElement('a');
+            a.setAttribute("href", dataStr);
+            a.setAttribute("download", `aegis_mastery_backup_${new Date().toISOString().split('T')[0]}.json`);
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        }
+
+        function importDataJSON(e) {
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    const imported = JSON.parse(evt.target.result);
+                    if (imported && imported.logs) {
+                        state = { ...state, ...imported };
+                        saveState();
+                        renderDashboard();
+                        alert('Backup successfully imported!');
+                    }
+                } catch (err) {
+                    alert('Invalid backup JSON file.');
+                }
+            };
+            reader.readAsText(e.target.files[0]);
+        }
+
+        function confirmResetAllData() {
+            if (confirm("Are you sure you want to clear all data? This cannot be undone.")) {
+                localStorage.removeItem(STORAGE_KEY);
+                state = { logs: {}, copingStrategies: [...DEFAULT_COPING] };
+                renderDashboard();
+            }
+        }
+    </script>
+</body>
+</html>
